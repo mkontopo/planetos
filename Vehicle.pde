@@ -6,7 +6,7 @@ class Vehicle {
   float r;
   float maxforce;    // Maximum steering force
   float maxspeed;    // Maximum speed
-  float vsize;
+  float vsize, vcurr;
   float innerOffset, outerOffset;
   float a_innerOffset, a_outerOffset;
 
@@ -67,14 +67,15 @@ class Vehicle {
     
     float d = PVector.dist(location, center);
     
-    float alpha = map(d, 0,pd+a_outerOffset, 100,0);
+    float alpha = map(d, 50,pd+a_outerOffset, 100,0);
     alpha = constrain(alpha, 0,100);
     
-    vsize = map(d, pd-innerOffset, pd+outerOffset, 2.5,0);
-    vsize = constrain(vsize, 0,5);
+    vcurr = noise(millis()/1000.0+innerOffset) * 15;
+    vsize = map(d, pd-innerOffset, pd+outerOffset, vcurr,0);
+    vsize = constrain(vsize, 0,vcurr);
     
-    for(float i=-vsize; i<vsize; i++){
-       float val = map(abs(i), 5,0, 50,255);
+    for(float i=0; i<vsize; i++){
+       float val = map(i, vsize,0, 50,255);
        stroke(val, alpha);
        point(i,0);
     }
