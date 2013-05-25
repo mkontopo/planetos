@@ -9,8 +9,12 @@ class Vehicle {
   float vsize, vcurr;
   float innerOffset, outerOffset;
   float a_innerOffset, a_outerOffset;
+  boolean darken = false;
+  float nDarkness;
+  int id;
 
-  Vehicle(PVector l, float ms, float mf) {
+  Vehicle(PVector l, float ms, float mf, int id) {
+    this.id = id;
     location = l.get();
     r = 3.0;
     vsize = 5;
@@ -30,6 +34,12 @@ class Vehicle {
     display();
   }
 
+//  void compare(ArrayList<DarkSpot> spots){
+//     for(DarkSpot ds : spots){
+//         spotDist = Vector.dist(location, ds.location) < ds.rad){     
+//     }
+//  }
+  
   void follow(FlowField flow) {
     PVector desired = flow.lookup(location);
     // Scale it up by maxspeed
@@ -73,11 +83,13 @@ class Vehicle {
     vsize = map(d, pd-innerOffset, pd+outerOffset, vcurr, 0);
     vsize = constrain(vsize, 0, vcurr);
 
-    float darkness = map(velocity.heading2D(), 0,PI, 50,255);
+
+    //float darkness = map(velocity.heading2D(), -PI,PI, 0,255);
+    nDarkness = noise(millis()/500.0 + id) * 255;
 
     //The gradient bar
     for (float i=0; i<vsize; i++) {
-      float val = map(i, vsize, 0, 50, darkness);
+      float val = map(i, vsize, 0, 50, nDarkness);
       stroke(val, alpha);
       point(i, 0);
     }
