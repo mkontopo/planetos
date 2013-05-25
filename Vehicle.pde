@@ -10,18 +10,18 @@ class Vehicle {
   float innerOffset, outerOffset;
   float a_innerOffset, a_outerOffset;
 
-    Vehicle(PVector l, float ms, float mf) {
+  Vehicle(PVector l, float ms, float mf) {
     location = l.get();
     r = 3.0;
     vsize = 5;
     maxspeed = ms;
     maxforce = mf;
-    acceleration = new PVector(0,0);
-    velocity = new PVector(0,0);
-    innerOffset = random(5,70);
-    outerOffset = random(5,70);
-    a_innerOffset = random(5,70);
-    a_outerOffset = random(5,70);
+    acceleration = new PVector(0, 0);
+    velocity = new PVector(0, 0);
+    innerOffset = random(5, 70);
+    outerOffset = random(5, 70);
+    a_innerOffset = random(5, 70);
+    a_outerOffset = random(5, 70);
   }
 
   public void run() {
@@ -31,7 +31,6 @@ class Vehicle {
   }
 
   void follow(FlowField flow) {
-    // What is the vector at that spot in the flow field?
     PVector desired = flow.lookup(location);
     // Scale it up by maxspeed
     desired.mult(maxspeed);
@@ -42,11 +41,9 @@ class Vehicle {
   }
 
   void applyForce(PVector force) {
-    // We could add mass here if we want A = F / M
     acceleration.add(force);
   }
 
-  // Method to update location
   void update() {
     // Update velocity
     velocity.add(acceleration);
@@ -59,25 +56,30 @@ class Vehicle {
 
   void display() {
     // Draw a triangle rotated in the direction of velocity
-    float theta = velocity.heading2D() + radians(90);
+    float theta = velocity.heading2D() + radians(70);
     strokeWeight(3);
     pushMatrix();
-    translate(location.x,location.y);
+    translate(location.x, location.y);
     rotate(theta);
-    
+
     float d = PVector.dist(location, center);
-    
-    float alpha = map(d, 50,pd+a_outerOffset, 100,0);
-    alpha = constrain(alpha, 0,100);
-    
-    vcurr = noise(millis()/1000.0+innerOffset) * 15;
-    vsize = map(d, pd-innerOffset, pd+outerOffset, vcurr,0);
-    vsize = constrain(vsize, 0,vcurr);
-    
-    for(float i=0; i<vsize; i++){
-       float val = map(i, vsize,0, 50,255);
-       stroke(val, alpha);
-       point(i,0);
+
+    //Alpha channel linked to dist from center. 
+    float alpha = map(d, 50, pd+a_outerOffset, 100, 0);
+    alpha = constrain(alpha, 0, 100);
+
+    //Noisy bar length
+    vcurr = noise(millis()/800.0+innerOffset) * 10;
+    vsize = map(d, pd-innerOffset, pd+outerOffset, vcurr, 0);
+    vsize = constrain(vsize, 0, vcurr);
+
+    float darkness = map(velocity.heading2D(), 0,PI, 50,255);
+
+    //The gradient bar
+    for (float i=0; i<vsize; i++) {
+      float val = map(i, vsize, 0, 50, darkness);
+      stroke(val, alpha);
+      point(i, 0);
     }
     popMatrix();
   }
@@ -90,5 +92,4 @@ class Vehicle {
     if (location.y > height+r) location.y = -r;
   }
 }
-
 
