@@ -1,12 +1,17 @@
 int numVehicles = 500;
+PVector center;
+float pd; //planet diameter
 
 FlowField flowfield;
 ArrayList<Vehicle> vehicles;
 
 void setup() {
   size(800, 800, P3D);
+  center = new PVector(width/2,height/2,0);
   smooth(4);
-  // Make a new flow field with "resolution" of 16
+  
+  pd = 300;
+  
   flowfield = new FlowField(5);
   vehicles = new ArrayList<Vehicle>();
   
