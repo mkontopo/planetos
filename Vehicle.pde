@@ -1,9 +1,3 @@
-// The Nature of Code
-// Daniel Shiffman
-// http://natureofcode.com
-
-// Flow Field Following
-
 class Vehicle {
 
   // The usual stuff
@@ -29,9 +23,6 @@ class Vehicle {
     display();
   }
 
-
-  // Implementing Reynolds' flow field following algorithm
-  // http://www.red3d.com/cwr/steer/FlowFollow.html
   void follow(FlowField flow) {
     // What is the vector at that spot in the flow field?
     PVector desired = flow.lookup(location);
