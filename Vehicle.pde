@@ -8,6 +8,7 @@ class Vehicle {
   float maxspeed;    // Maximum speed
   float vsize;
   float innerOffset, outerOffset;
+  float a_innerOffset, a_outerOffset;
 
     Vehicle(PVector l, float ms, float mf) {
     location = l.get();
@@ -17,8 +18,10 @@ class Vehicle {
     maxforce = mf;
     acceleration = new PVector(0,0);
     velocity = new PVector(0,0);
-    innerOffset = random(10,50);
-    outerOffset = random(10,50);
+    innerOffset = random(5,70);
+    outerOffset = random(5,70);
+    a_innerOffset = random(5,70);
+    a_outerOffset = random(5,70);
   }
 
   public void run() {
@@ -64,14 +67,15 @@ class Vehicle {
     
     float d = PVector.dist(location, center);
     
-    float alpha = map(d, pd-50,pd+10, 255,0);
-    alpha = constrain(alpha, 0,255);
+    float alpha = map(d, 0,pd+a_outerOffset, 100,0);
+    alpha = constrain(alpha, 0,100);
     
-    vsize = map(d, pd-innerOffset, pd+outerOffset, 5,0);
+    vsize = map(d, pd-innerOffset, pd+outerOffset, 2.5,0);
     vsize = constrain(vsize, 0,5);
     
     for(float i=-vsize; i<vsize; i++){
-       stroke(map(abs(i), 5,0, 40,255), 200);
+       float val = map(abs(i), 5,0, 50,255);
+       stroke(val, alpha);
        point(i,0);
     }
     popMatrix();
