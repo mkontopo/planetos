@@ -6,7 +6,7 @@ class FlowField {
   int cols, rows; // Columns and Rows
   int resolution; // How large is each "cell" of the flow field
   float zoff = 0;
-  float rateOfChange = 0.04;
+  float rateOfChange = 0.02;
   float theta = 0;
 
   FlowField(int r) {
