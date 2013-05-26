@@ -9,7 +9,6 @@ class Vehicle {
   float vsize, vcurr;
   float innerOffset, outerOffset;
   float a_innerOffset, a_outerOffset;
-  boolean darken = false;
   float nDarkness;
   
 
@@ -64,10 +63,10 @@ class Vehicle {
 
   // Wraparound
   void borders() {
-    if (location.x < -r) location.x = width+r;
-    if (location.y < -r) location.y = height+r;
-    if (location.x > width+r) location.x = -r;
-    if (location.y > height+r) location.y = -r;
+    if (location.x < -r) location.x = printSize+r;
+    if (location.y < -r) location.y = printSize+r;
+    if (location.x > printSize+r) location.x = -r;
+    if (location.y > printSize+r) location.y = -r;
   }
 }
 

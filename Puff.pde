@@ -10,10 +10,10 @@ class Puff extends Vehicle {
   void display() {
     // Draw a triangle rotated in the direction of velocity
     float theta = velocity.heading2D() + radians(70);
-    strokeWeight(3);
-    pushMatrix();
-    translate(location.x, location.y);
-    rotate(theta);
+    canvas.strokeWeight(3);
+    canvas.pushMatrix();
+    canvas.translate(location.x, location.y);
+    canvas.rotate(theta);
 
     float d = PVector.dist(location, center);
 
@@ -28,12 +28,12 @@ class Puff extends Vehicle {
 
     nDarkness = map(velocity.heading2D(), -PI, PI, 0, 100);
 
-    pushStyle();
-    tint(nDarkness,nDarkness,nDarkness, alpha);
-    image(puff, 0, 0, vsize, vsize);
-    popStyle();
+    canvas.pushStyle();
+    canvas.tint(nDarkness,nDarkness,nDarkness, alpha);
+    canvas.image(puff, 0, 0, vsize, vsize);
+    canvas.popStyle();
 
-    popMatrix();
+    canvas.popMatrix();
   }
 }
 

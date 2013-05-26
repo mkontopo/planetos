@@ -11,12 +11,14 @@ class FlowField {
 
   FlowField(int r) {
     resolution = r;
+    
     // Determine the number of columns and rows based on sketch's width and height
-    cols = width/resolution;
-    rows = height/resolution;
+    cols = printSize/resolution;
+    rows = printSize/resolution;
     field = new PVector[cols][rows];
     zvals = new PVector[cols][rows];
     update();
+    
   }
 
   void run(){
