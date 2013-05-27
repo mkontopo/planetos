@@ -3,6 +3,7 @@ PVector center;
 float pd; //planet diameter
 PGraphics canvas;
 int printSize = 2500;
+long pm = 0;
 
 FlowField flowfield;
 ArrayList<Vehicle> vehicles;
@@ -19,30 +20,40 @@ void setup() {
   canvas.smooth(4);
   pd = canvas.width/3;
 
-  flowfield = new FlowField(5);
+  flowfield = new FlowField(10);
   vehicles = new ArrayList<Vehicle>();
 
-  for (int i = 0; i < 100; i++) {
-    vehicles.add(new Puff(new PVector(random(printSize), random(printSize)), random(0.5, 1.5), random(0.1, 0.45)));
+  for (int i = 0; i < 400; i++) {
+    //vehicles.add(new Puff(new PVector(random(printSize), random(printSize)), random(0.5, 2.5), random(0.1, 0.55)));
   }
-  for (int i = 0; i < 500; i++) {
-    vehicles.add(new Tube(new PVector(random(printSize), random(printSize)), random(0.5, 1.5), random(0.1, 0.45)));
+  for (int i = 0; i < 1000; i++) {
+    //vehicles.add(new Tube(new PVector(random(printSize), random(printSize)), random(0.5, 2.5), random(0.1, 0.55)));
+  }
+  for (int i = 0; i < 600; i++) {
+    vehicles.add(new Fuzz(new PVector(random(printSize), random(printSize)), random(0.5, 2.5), random(0.1, 0.55)));
   }
 
   canvas.background(255);
   canvas.noStroke();
-  for (int i=500; i>0; i--) {
-    canvas.fill(map(i, 500, 0, 255, 0));
-    canvas.ellipse(printSize/2, printSize/2, i, i);
+  for (int i=floor(1000); i>0; i--) {
+    canvas.fill(map(i, 1000, 0, 255, 0));
+    canvas.ellipse(canvas.width/2, canvas.height/2, i, i);
   }
   canvas.endDraw();
 }
 
 void draw() {
   canvas.beginDraw();
-  diagonal = PVector.sub(new PVector(mouseX, mouseY), center);
+//  
+//  canvas.pushStyle();
+//  canvas.fill(255,2);
+//  canvas.noStroke();
+//  canvas.rect(0,0,canvas.width,canvas.height);
+//  canvas.popStyle();
+  
+  diagonal = PVector.sub(new PVector(printSize,0), center);
   diagonal.normalize();
-  diagonal.mult(0.1);
+  diagonal.mult(1);
 
   flowfield.run();
   for (Vehicle v : vehicles) {
@@ -51,12 +62,15 @@ void draw() {
     v.run();
   }
 
-  if (millis() - pm >= 300000) {
+  if (millis() - pm >= 100000) {
     println("Saving Image");
-    canvas.save("planet.tif");
+    canvas.save("planet-"+frameCount+".tif");
+    pm = millis();
   }
-
   canvas.endDraw();
+
+
+
 
   //image(canvas, 0, 0, 500, 500);
   //for(DarkSpot ds : spots)

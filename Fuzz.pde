@@ -1,21 +1,27 @@
-class Tube extends Vehicle {
+class Fuzz extends Vehicle {
 
   float offset;
+  float[] fringe;
 
-  Tube(PVector l, float ms, float mf) {
+  Fuzz(PVector l, float ms, float mf) {
     super(l, ms, mf);
-    offset = random(pd, pd*3);
+    offset = random(300);
+    fringe = new float[floor(random(7))];
+    for (int i=0; i<fringe.length; i++) {
+      fringe[i] = random(30, 100);
+    }
   } 
 
 
   void display() {
-    
+
     // Draw a triangle rotated in the direction of velocity
     float theta = velocity.heading2D() + radians(70);
     canvas.strokeWeight(3);
     canvas.pushMatrix();
     canvas.translate(location.x, location.y);
     canvas.rotate(theta);
+ 
 
     float d = PVector.dist(location, center);
 
@@ -26,16 +32,20 @@ class Tube extends Vehicle {
     //Noisy bar length
     vcurr = noise(millis()/800.0+innerOffset) * 30;
     vsize = map(d, pd-innerOffset, pd+outerOffset, vcurr, 0);
+    vsize = map(d, 100, 0, vcurr, 0);
     vsize = constrain(vsize, 0, vcurr);
 
-    //float darkness = map(d, offset, 0, 255, 0);
-    nDarkness = noise((location.x*location.y)/130000.0) * 255;
+    //*****Experimental
+    canvas.scale(vsize/20.0);
+
+    float darkness = map(d, pd+offset, 0, 255, 0);
+    //nDarkness = noise((location.x*location.y)/130000.0) * 255;
 
     //The gradient bar
-    for (float i=0; i<vsize; i++) {
-      float val = map(i, vsize, 0, 40, nDarkness);
+    for (float i=0; i<fringe.length; i++) {
+      float val = map(i, vsize, 0, 40, darkness);
       canvas.stroke(val, alpha);
-      canvas.point(i, 0);
+      canvas.line(0,0, random(-100, 100), fringe[int(i)] );
     }
 
     canvas.popMatrix();

@@ -20,10 +20,10 @@ class Vehicle {
     maxforce = mf;
     acceleration = new PVector(0, 0);
     velocity = new PVector(0, 0);
-    innerOffset = random(5, 70);
-    outerOffset = random(5, 70);
-    a_innerOffset = random(5, 70);
-    a_outerOffset = random(5, 70);
+    innerOffset = random(100, 400);
+    outerOffset = random(100, 400);
+    a_innerOffset = random(100, 400);
+    a_outerOffset = random(100, 400);
     
   }
 

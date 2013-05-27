@@ -22,7 +22,7 @@ class Puff extends Vehicle {
     alpha = constrain(alpha, 0, 100);
 
     //Noisy size
-    vcurr = noise(millis()/800.0+innerOffset) * 10;
+    vcurr = noise(millis()/800.0+innerOffset) * 30;
     vsize = map(d, pd-innerOffset, pd+outerOffset, vcurr, 0);
     vsize = constrain(vsize, 0, vcurr);
 
@@ -30,7 +30,7 @@ class Puff extends Vehicle {
 
     canvas.pushStyle();
     canvas.tint(nDarkness,nDarkness,nDarkness, alpha);
-    canvas.image(puff, 0, 0, vsize, vsize);
+    canvas.image(puff, 0, 0, vsize*1.3, vsize*1.3);
     canvas.popStyle();
 
     canvas.popMatrix();
